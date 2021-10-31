@@ -33,3 +33,13 @@ export const isEmailExisted = async (email) => {
   const user = await User.findOne({ email });
   return user ? true : false;
 };
+
+export const getFullUser = async (id) => {
+  const user = await User.findById(id).select('-password');
+  return user;
+};
+
+export const getUserNameOnly = async (id) => {
+  const user = await User.findById(id).select('name');
+  return user;
+};

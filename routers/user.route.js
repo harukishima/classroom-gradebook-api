@@ -2,6 +2,7 @@ import express from 'express';
 import * as controller from '../controllers/user.controller.js';
 import {
   minimumPermissionLevelRequired,
+  optionalJWT,
   register,
   validJWTNeeded,
 } from '../middlewares/auth/auth.middleware.js';
@@ -17,5 +18,6 @@ router.get(
   controller.profile
 );
 router.post('/register', addNormalUser, register, controller.userRegistaion);
+router.get('/:id', optionalJWT, controller.getUser);
 
 export default router;

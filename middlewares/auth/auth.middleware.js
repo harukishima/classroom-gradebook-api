@@ -53,3 +53,21 @@ export const register = async (req, res, next) => {
   req.body.password = salt + '$' + hash;
   next();
 };
+
+export const optionalJWT = async (req, res, next) => {
+  if (req.headers['authorization']) {
+    try {
+      let authorization = req.headers['authorization'].split(' ');
+      if (authorization[0] !== 'Bearer') {
+        next();
+      } else {
+        //req.jwt = jwt.verify(authorization[1], config.jwtSecret);
+        req.jwt = verifyToken(authorization[1], config.jwtSecret);
+        next();
+      }
+    } catch (err) {
+      //return res.status(403).json({ errors: ['JWT Forbidden'] });
+    }
+  }
+  next();
+};

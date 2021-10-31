@@ -1,6 +1,6 @@
 import crypto from 'crypto';
-import User, { isEmailExisted } from '../models/User.model.js';
-import { emailValidation } from '../helpers/verify.helper.js';
+import User, { getFullUser, getUserNameOnly } from '../models/User.model.js';
+import config from '../config/index.js';
 
 export const userRegistaion = async (req, res) => {
   // if (!emailValidation(req.body.email)) {
@@ -27,4 +27,19 @@ export const userRegistaion = async (req, res) => {
 export const profile = async (req, res) => {
   let user = await User.findById(req.jwt.data._id).select('-password');
   res.status(200).json(user);
+};
+
+export const getUser = async (req, res) => {
+  let user = await getFullUser(req.params.id);
+  if (req.jwt) {
+    if (req.jwt.data.permissionLevel & config.permission.CLASSROOM_MANAGER) {
+      return res.status(200).json(user);
+    } else if (req.jwt.data._id === user._id.toString()) {
+      return res.status(200).json(user);
+    }
+  }
+  return res.status(200).json({
+    _id: user._id,
+    name: user.name,
+  });
 };
