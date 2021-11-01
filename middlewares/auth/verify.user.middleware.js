@@ -4,7 +4,7 @@ import crypto from 'crypto';
 export const isPasswordAndUserMatch = (req, res, next) => {
   User.findOne({ email: req.body.email }).then((user) => {
     if (!user) {
-      res.status(404).json({ error: "User's not exist" });
+      res.status(401).json({ error: "User's not exist" });
     } else {
       let passwordFields = user.password.split('$');
       let salt = passwordFields[0];
@@ -22,7 +22,7 @@ export const isPasswordAndUserMatch = (req, res, next) => {
         req.user = user;
         return next();
       } else {
-        return res.status(400).json({ error: 'Invalid email or password' });
+        return res.status(401).json({ error: 'Invalid email or password' });
       }
     }
   });

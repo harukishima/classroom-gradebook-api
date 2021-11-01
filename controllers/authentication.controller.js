@@ -13,7 +13,7 @@ export const logIn = (req, res) => {
       config.refreshSecret,
       config.refreshLife
     );
-    res.status(201).send({ accessToken: token, refreshToken: refresh_token });
+    res.status(200).send({ accessToken: token, refreshToken: refresh_token });
   } catch (err) {
     res.status(500).send({ errors: err });
   }

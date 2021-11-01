@@ -17,7 +17,7 @@ export const validJWTNeeded = (req, res, next) => {
       }
     } catch (err) {
       console.error(err);
-      return res.status(403).json({ errors: ['JWT Forbidden'] });
+      return res.status(401).json({ errors: ['JWT Forbidden'] });
     }
   } else {
     return res.status(401).json({ errors: ['Invalid header'] });

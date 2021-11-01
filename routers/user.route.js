@@ -12,7 +12,7 @@ import config from '../config/index.js';
 const router = express.Router();
 
 router.get(
-  '/',
+  '/profile',
   validJWTNeeded,
   minimumPermissionLevelRequired(config.permission.NORMAL_USER),
   controller.profile
