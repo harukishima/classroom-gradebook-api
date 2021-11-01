@@ -60,10 +60,12 @@ export const optionalJWT = async (req, res, next) => {
       let authorization = req.headers['authorization'].split(' ');
       if (authorization[0] !== 'Bearer') {
         next();
+        return;
       } else {
         //req.jwt = jwt.verify(authorization[1], config.jwtSecret);
         req.jwt = verifyToken(authorization[1], config.jwtSecret);
         next();
+        return;
       }
     } catch (err) {
       //return res.status(403).json({ errors: ['JWT Forbidden'] });
